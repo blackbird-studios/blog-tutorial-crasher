@@ -12,6 +12,7 @@ import {
 
 import { getUser } from "~/session.server";
 import stylesheet from "~/tailwind.css";
+import { HeirarchyForFun } from "./HeirarchyForFun";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -36,7 +37,15 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        <HeirarchyForFun />
       </body>
     </html>
   );
 }
+
+export const ErrorBoundary = ({ error }: { error: Error }) => (
+  <div>
+    <h1>Oops, something went wrong in Root</h1>
+    <pre>{error.message}</pre>
+  </div>
+);
