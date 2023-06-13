@@ -1,4 +1,8 @@
-import { useRevalidator } from "@remix-run/react";
+import {
+  isRouteErrorResponse,
+  useRevalidator,
+  useRouteError,
+} from "@remix-run/react";
 import { useEffect } from "react";
 
 interface Props {
@@ -26,9 +30,20 @@ const usePolling = (frequencyMs: number) => {
   }, [revalidator, frequencyMs]);
 };
 
-export const ErrorBoundary = ({ error }: { error: Error }) => (
-  <div>
-    <h1>Oops, something went wrong in Poller</h1>
-    <pre>{error.message}</pre>
-  </div>
-);
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (error instanceof Error) {
+    return <div>Poller: An unexpected error occurred: {error.message}</div>;
+  }
+
+  if (!isRouteErrorResponse(error)) {
+    return <h1>Poller: Unknown Error</h1>;
+  }
+
+  if (error.status === 404) {
+    return <div>Poller: Note not found</div>;
+  }
+
+  return <div>Poller: An unexpected error occurred: {error.statusText}</div>;
+}

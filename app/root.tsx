@@ -8,11 +8,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
+  useRouteError,
 } from "@remix-run/react";
 
 import { getUser } from "~/session.server";
 import stylesheet from "~/tailwind.css";
-import { HeirarchyForFun } from "./HeirarchyForFun";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -37,15 +38,25 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <HeirarchyForFun />
       </body>
     </html>
   );
 }
 
-export const ErrorBoundary = ({ error }: { error: Error }) => (
-  <div>
-    <h1>Oops, something went wrong in Root</h1>
-    <pre>{error.message}</pre>
-  </div>
-);
+// export function ErrorBoundary() {
+//   const error = useRouteError();
+
+//   if (error instanceof Error) {
+//     return <div>root: An unexpected error occurred: {error.message}</div>;
+//   }
+
+//   if (!isRouteErrorResponse(error)) {
+//     return <h1>root: Unknown Error</h1>;
+//   }
+
+//   if (error.status === 404) {
+//     return <div>root: Note not found</div>;
+//   }
+
+//   return <div>root: An unexpected error occurred: {error.statusText}</div>;
+// }

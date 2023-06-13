@@ -7,6 +7,7 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { HeirarchyForFun } from "~/HeirarchyForFun";
 
 import { deleteNote, getNote } from "~/models/note.server";
 import { requireUserId } from "~/session.server";
@@ -39,6 +40,7 @@ export default function NoteDetailsPage() {
       <h3 className="text-2xl font-bold">{data.note.title}</h3>
       <p className="py-6">{data.note.body}</p>
       <hr className="my-4" />
+      <HeirarchyForFun />
       <Form method="post">
         <button
           type="submit"
@@ -55,16 +57,16 @@ export function ErrorBoundary() {
   const error = useRouteError();
 
   if (error instanceof Error) {
-    return <div>An unexpected error occurred: {error.message}</div>;
+    return <div>$notesId: An unexpected error occurred: {error.message}</div>;
   }
 
   if (!isRouteErrorResponse(error)) {
-    return <h1>Unknown Error</h1>;
+    return <h1>$notesId: Unknown Error</h1>;
   }
 
   if (error.status === 404) {
-    return <div>Note not found</div>;
+    return <div>$notesId: Note not found</div>;
   }
 
-  return <div>An unexpected error occurred: {error.statusText}</div>;
+  return <div>$notesId: An unexpected error occurred: {error.statusText}</div>;
 }
