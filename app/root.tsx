@@ -8,6 +8,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
+  useRouteError,
 } from "@remix-run/react";
 
 import { getUser } from "~/session.server";
@@ -40,3 +42,21 @@ export default function App() {
     </html>
   );
 }
+
+// export function ErrorBoundary() {
+//   const error = useRouteError();
+
+//   if (error instanceof Error) {
+//     return <div>root: An unexpected error occurred: {error.message}</div>;
+//   }
+
+//   if (!isRouteErrorResponse(error)) {
+//     return <h1>root: Unknown Error</h1>;
+//   }
+
+//   if (error.status === 404) {
+//     return <div>root: Note not found</div>;
+//   }
+
+//   return <div>root: An unexpected error occurred: {error.statusText}</div>;
+// }
